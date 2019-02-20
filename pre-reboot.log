@@ -1,5 +1,6 @@
-Containers: 2
- Running: 1
++ docker info
+Containers: 1
+ Running: 0
  Paused: 0
  Stopped: 1
 Images: 29
@@ -62,8 +63,8 @@ Docker Root Dir: /var/lib/docker
 Debug Mode (client): false
 Debug Mode (server): true
  File Descriptors: 37
- Goroutines: 159
- System Time: 2019-02-20T18:41:16.493865254Z
+ Goroutines: 158
+ System Time: 2019-02-20T18:48:44.003140111Z
  EventsListeners: 0
 Registry: https://index.docker.io/v1/
 Labels:
@@ -74,18 +75,21 @@ Insecure Registries:
 Live Restore Enabled: false
 Product License: Unlicensed Enterprise Engine
 
++ docker network ls
 NETWORK ID          NAME                DRIVER              SCOPE
 ca6409d597f8        bridge              bridge              local
 145a16037e95        docker_gwbridge     bridge              local
 d51b824ac0e4        host                host                local
 fzrbutojc41p        ingress             overlay             swarm
-0eb730a64dd6        mv-test             macvlan             local
 6fc939f7e9a2        none                null                local
++ docker network create --attachable -d macvlan -o parent=eth0 mv-test
+0c1720fed20d1b240810cde3ecbf06f6bc9d70a301cc7fa06f0171fc5e070fe5
++ docker network inspect mv-test
 [
     {
         "Name": "mv-test",
-        "Id": "0eb730a64dd6926696bbf5b0f05fbc2a51dc520ca340a6ae0560a9539e057431",
-        "Created": "2019-02-20T18:25:54.244094829Z",
+        "Id": "0c1720fed20d1b240810cde3ecbf06f6bc9d70a301cc7fa06f0171fc5e070fe5",
+        "Created": "2019-02-20T18:48:44.124648Z",
         "Scope": "local",
         "Driver": "macvlan",
         "EnableIPv6": false,
@@ -113,4 +117,5 @@ fzrbutojc41p        ingress             overlay             swarm
         "Labels": {}
     }
 ]
-nginx-mv-test
++ docker container run -td --name nginx-mv-test --network mv-test nginx
+0740a77faef21dd61ea88f1c9ff132e8bbc137a7faa333aeb1d57ad4a6240b88

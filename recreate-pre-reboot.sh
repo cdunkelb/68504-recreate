@@ -1,3 +1,4 @@
+#!/bin/bash
 docker info
 docker network ls
 docker network create --attachable -d macvlan -o parent=eth0 mv-test
